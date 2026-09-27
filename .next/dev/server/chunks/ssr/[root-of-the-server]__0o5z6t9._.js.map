@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 10, "column": 0}, "map": {"version":3,"sources":["file:///workspaces/SiteBiologia/app/page.jsx"],"sourcesContent":["export default function HomePage() {\n  return (\n    <main>\n      <p>...</p>\n    </main>\n  );\n}"],"names":["HomePage"],"mappings":";;;;;;AAAe,SAASA;IACtB,qBACE,8OAAC;kBACC,cAAA,8OAAC;sBAAE;;;;;;;;;;;AAGT"}}]
-}
