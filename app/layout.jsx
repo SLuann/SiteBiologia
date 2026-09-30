@@ -6,9 +6,9 @@ import SessãoInfo from "./componentes/SessãoInfo";
 export default function RootLayout({ children }) {
   return (
     <html lang="pt">
-      <body className="min-h-screen flex flex-col">
+      <body className="bg-white min-h-screen flex flex-col">
         <Header/>
-        <main className="flex-1 bg-gray-600">
+        <main className="flex-1">
         {children}
         <SessãoInfo/>
         </main>
