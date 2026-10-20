@@ -1,3 +1,5 @@
+import Sessões from "./componentes/Sessões";
+
 export default function HomePage() {
   return (
     <div>
