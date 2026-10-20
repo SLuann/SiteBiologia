@@ -1,6 +1,6 @@
 export default function Footer(){
     return(
-        <div className= "bg-yellow-200 p-10 text-dark">
+        <div className= "bg-yellow-100 p-10 text-dark">
             <p className= "font-medium justify-self-center">
                 Projeto realizado no IFRN Campus Parnamirim, organizado pelos professores de Biologia.
             </p>

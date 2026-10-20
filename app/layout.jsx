@@ -1,7 +1,7 @@
 import "./global.css";
 import Header from "./componentes/Header";
 import Footer from "./componentes/Footer";
-import SessãoInfo from "./componentes/SessãoInfo";
+import Sessões from "./componentes/Sessões";
 
 export default function RootLayout({ children }) {
   return (
@@ -10,7 +10,7 @@ export default function RootLayout({ children }) {
         <Header/>
         <main className="flex-1">
         {children}
-        <SessãoInfo/>
+        <Sessões/>
         </main>
         <Footer/>
       </body>
