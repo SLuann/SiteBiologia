@@ -1,5 +1,5 @@
 export const Rotas = {
   inicio: "/",
-  SessãoInfo: "/sessaoinfo",
-  SessãoGame: "/sessaogame",
+  info: "/info",
+  game: "/game",
 };

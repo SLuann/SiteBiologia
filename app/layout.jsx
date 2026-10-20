@@ -10,7 +10,6 @@ export default function RootLayout({ children }) {
         <Header/>
         <main className="flex-1">
         {children}
-        <Sessões/>
         </main>
         <Footer/>
       </body>
