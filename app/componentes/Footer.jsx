@@ -8,7 +8,6 @@ export default function Footer(){
                 <li>Turma: INFO3V.</li>
                 <li>Grupo: Nicholas, Ronnaldy e Shallyson.</li>
                 <li>Professora: Thayse Azevedo.</li>
-                <li>Período de produção: Entre 23 de setembro e 20 de outubro, 2026.</li>
             </ul>
         </div>
     );
