@@ -2,6 +2,7 @@ import {Rotas} from "../rotas";
 import Image from "next/image";
 import Link from "next/link";
 import SistemaEndoIcon from "../imagens/SistemaEndoIcon.png";
+import GameIcon from "../imagens/GameIcon.png";
 
 export default function(){
     return(
@@ -15,9 +16,12 @@ export default function(){
                 <Link href={Rotas.info} className="bg-white border-1 rounded-sm text-md p-1">Entrar</Link>
             </div>
             <div className="bg-blue-700 border-2 w-90 h-110 md:w-140 md:h-122 rounded-xl text-center m-10">
-                <h2 className="text-white text-xl md:text-3xl font-semibold">Minigame interativo do Sistema Endócrino (Se der tempo)</h2>
-                <p className="text-white m-2">Use o minigame para aprender mais sobre como funciona a regulação
-                    hormonal dentro do nosso corpo. Interaja com as opções e Bom jogo!</p>
+                <h2 className="text-white text-xl md:text-3xl font-semibold">Minigame: Simulador de Regulação Hormonal</h2>
+                <Image src={GameIcon} alt="Ícone do Jogo" loading="eager" className="w-40 md:w-70 rounded-full justify-self-center py-1"/>
+                <p className="text-white m-2">O minigame interativo foi desenvolvido com o objetivo de fixar de 
+                    forma prática e lúdica os conceitos complexos de feedback hormonal e homeostase corporal. 
+                    Através de uma abordagem de gamificação baseada em casos clínicos, o usuário assume o controle 
+                    do sistema endócrino em um ambiente digital dinâmico.</p>
                 <Link href={Rotas.game} className="bg-white border-1 rounded-sm text-md p-1">Iniciar</Link>
             </div>
         </div>
