@@ -142,11 +142,12 @@ const TODOS_HORMONIOS = [
 export default function Minigame() {
     const [faseAtual, setFaseAtual] = useState(0);
     const [statusValor, setStatusValor] = useState(CENARIOS[0].statusInicial);
-    const [tempo, setTempo] = useState(15);
+    const [tempo, setTempo] = useState(20);
     const [jogoStatus, setJogoStatus] = useState('inicio'); // 'inicio', 'jogando', 'ganhou_fase', 'perdeu', 'fim_de_jogo'
     const [pontos, setPontos] = useState(0);
     const [opcoesFase, setOpcoesFase] = useState([]);
     const [animando, setAnimando] = useState(false);
+    const [tentativasErradas, setTentativasErradas] = useState(0);
 
     const cenario = CENARIOS[faseAtual];
 
@@ -200,9 +201,10 @@ export default function Minigame() {
     const iniciarJogo = () => {
         setFaseAtual(0);
         setStatusValor(CENARIOS[0].statusInicial);
-        setTempo(15);
+        setTempo(20);
         setJogoStatus('jogando');
         setPontos(0);
+        setTentativasErradas(0);
     };
 
     const injetarHormonio = (hormonioId) => {
@@ -212,13 +214,22 @@ export default function Minigame() {
             // Traz o valor de volta para o ponto médio exato da zona estável
             const pontoMedio = cenario.alvoMin + (cenario.alvoMax - cenario.alvoMin) / 2;
             setStatusValor(Number(pontoMedio.toFixed(1)));
-            setPontos((p) => p + 10);
+            const pontosQuestao = tentativasErradas === 0 ? 10 : tentativasErradas === 1 ? 6 : 3;
+            setPontos((p) => p + pontosQuestao);
             setJogoStatus('ganhou_fase');
         } else {
-            // Punição por erro técnico: reduz o tempo de resposta
+            // Punição por erro técnico: reduz o tempo de resposta e a pontuação
             setTempo((t) => Math.max(t - 3, 0));
+            const novasTentativasErradas = tentativasErradas + 1;
+            setTentativasErradas(novasTentativasErradas);
+
             const penalidade = cenario.alvoMax > 50 ? 15 : 1.5;
             setStatusValor((prev) => Number((cenario.statusInicial > cenario.alvoMax ? prev + penalidade : prev - penalidade).toFixed(1)));
+
+            // Na terceira resposta errada, encerra a questão sem conceder os 10 pontos.
+            if (novasTentativasErradas >= 3) {
+                setJogoStatus('errou_fase');
+            }
         }
     };
 
@@ -227,7 +238,8 @@ export default function Minigame() {
             const proxima = faseAtual + 1;
             setFaseAtual(proxima);
             setStatusValor(CENARIOS[proxima].statusInicial);
-            setTempo(15);
+            setTempo(20);
+            setTentativasErradas(0);
             setJogoStatus('jogando');
         } else {
             setJogoStatus('fim_de_jogo');
@@ -273,7 +285,7 @@ export default function Minigame() {
                             </p>
                         </div>
                         <div className="text-right text-sm">
-                            <p>Pontos: <strong>{pontos}</strong></p>
+                            <p>Pontuação da questão <strong>{Math.max(10 - (tentativasErradas === 0 ? 0 : tentativasErradas === 1 ? 4 : 7), 0)}/10</strong></p>
                             <p>
                                 Tempo:{' '}
                                 <strong className={`font-bold ${tempo < 5 ? "text-red-500 animate-pulse text-base" : "text-white"}`}>
@@ -326,7 +338,9 @@ export default function Minigame() {
                         Homeostase Restabelecida!
                     </h2>
                     <p className="text-slate-300">{cenario.mensagemSucesso}</p>
-                    <p className="font-bold text-emerald-300">+10 pontos</p>
+                    <p className="font-bold text-emerald-300">
+                        Você errou {tentativasErradas} {tentativasErradas === 1 ? "vez" : "vezes"} e recebeu {tentativasErradas === 0 ? 10 : tentativasErradas === 1 ? 6 : 3} pontos.
+                    </p>
                     <button
                         onClick={proximaFase}
                         className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-6 py-3 rounded-xl transition-all cursor-pointer"
@@ -336,7 +350,26 @@ export default function Minigame() {
                 </div>
             )}
 
-            {/* 4. TELA DE DERROTA */}
+            {/* 4. TELA DE QUESTÃO PERDIDA APÓS TRÊS ERROS */}
+            {jogoStatus === 'errou_fase' && (
+                <div className="flex flex-col items-center justify-center text-center py-6 space-y-5">
+                    <div className="text-6xl">❌</div>
+                    <h2 className="text-2xl font-extrabold text-red-400">
+                        Você errou 3 vezes!
+                    </h2>
+                    <p className="text-slate-300">
+                        Você errou 3 vezes e recebeu 0 pontos nesta questão.
+                    </p>
+                    <button
+                        onClick={proximaFase}
+                        className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-6 py-3 rounded-xl transition-all cursor-pointer"
+                    >
+                        {faseAtual === CENARIOS.length - 1 ? "Ver Avaliação Final 📊" : "Próximo Caso Clínico ➡️"}
+                    </button>
+                </div>
+            )}
+
+            {/* 5. TELA DE DERROTA */}
             {jogoStatus === 'perdeu' && (
                 <div className="flex flex-col items-center justify-center text-center py-6 space-y-5">
                     <div className="text-6xl">⚠️</div>
@@ -355,7 +388,7 @@ export default function Minigame() {
                 </div>
             )}
 
-            {/* 5. TELA DE FIM DE JOGO */}
+            {/* 6. TELA DE FIM DE JOGO */}
             {jogoStatus === 'fim_de_jogo' && (
                 <div className="flex flex-col items-center justify-center text-center py-6 space-y-5">
                     <div className="text-6xl">🏆</div>
@@ -364,6 +397,8 @@ export default function Minigame() {
                     </h2>
                     <p className="text-slate-300">
                         Excelente trabalho técnico! Você equilibrou com sucesso todos os 10 eixos metabólicos e manteve a estabilidade total do organismo.
+                        <br />
+                        Obrigado por jogar !
                     </p>
                     <div className="rounded-xl bg-slate-900/70 border border-slate-700 p-5">
                         <p className="text-sm text-slate-300">Pontuação Concluída</p>

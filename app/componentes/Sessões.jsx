@@ -22,7 +22,7 @@ export default function(){
                     forma prática e lúdica os conceitos complexos de feedback hormonal e homeostase corporal. 
                     Através de uma abordagem de gamificação baseada em casos clínicos, o usuário assume o controle 
                     do sistema endócrino em um ambiente digital dinâmico.</p>
-                <Link href={Rotas.game} className="bg-white border-1 rounded-sm text-md p-1">Iniciar</Link>
+                <Link href={Rotas.game} className="bg-white border-1 rounded-sm text-md p-1">Entrar</Link>
             </div>
         </div>
     )
